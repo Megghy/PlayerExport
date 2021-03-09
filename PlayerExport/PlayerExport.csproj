@@ -75,6 +75,5 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetDir)$(TargetName)$(TargetExt)" "D:\TShock_4.4.0\ServerPlugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>
