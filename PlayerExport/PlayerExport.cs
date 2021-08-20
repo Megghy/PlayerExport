@@ -20,6 +20,8 @@ namespace PlayerExport
         public override string Author => "Megghy";
         public override string Description => "导出服务器中的云存档.";
 
+        private static readonly string SaveDirPath = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "PlayerExport";
+
         public PlayerExport(Main game) : base(game)
         {
         }
@@ -68,7 +70,7 @@ namespace PlayerExport
                                     if (list.Count > 1) args.Player.SendMultipleMatchError(list);
                                     else if (list.Any())
                                     {
-                                        if (Export(list[0].TPlayer).Result) args.Player.SendSuccessMessage($"已导出玩家 {list[0].Name} 的存档至 {Environment.CurrentDirectory + "\\PlayerExport\\" + list[0].Name + ".plr"}.");
+                                        if (Export(list[0].TPlayer).Result) args.Player.SendSuccessMessage($"已导出玩家 {list[0].Name} 的存档至 {SaveDirPath + Path.DirectorySeparatorChar + list[0].Name + ".plr"}.");
                                         else args.Player.SendErrorMessage($"导出失败.");
                                     }
                                     else
@@ -87,7 +89,7 @@ namespace PlayerExport
                                                     args.Player.SendErrorMessage($"玩家 {name} 的数据不完整, 无法导出.");
                                                     return;
                                                 }
-                                                if (Export(ModifyData(name, data)).Result) args.Player.SendSuccessMessage($"已导出玩家 {name} 的存档至 {Environment.CurrentDirectory + "\\PlayerExport\\" + name + ".plr"}.");
+                                                if (Export(ModifyData(name, data)).Result) args.Player.SendSuccessMessage($"已导出玩家 {name} 的存档至 {SaveDirPath + Path.DirectorySeparatorChar + name + ".plr"}.");
                                                 else args.Player.SendErrorMessage($"导出失败.");
                                             }
                                             else
@@ -163,12 +165,14 @@ namespace PlayerExport
         }
         public static async Task<bool> Export(Player plr)
         {
+            char separator = Path.DirectorySeparatorChar;
             return await Task.Run(() =>
             {
-                string path = Environment.CurrentDirectory + "\\PlayerExport\\" + plr.name + ".plr";
+                string path = SaveDirPath + separator + plr.name + ".plr";
                 try
                 {
-                    if (!Directory.Exists(Environment.CurrentDirectory + "\\PlayerExport")) Directory.CreateDirectory(Environment.CurrentDirectory + "\\PlayerExport");
+                    if (!Directory.Exists(SaveDirPath)) 
+                        Directory.CreateDirectory(SaveDirPath);
                     if (File.Exists(path))
                     {
                         File.Copy(path, path + ".bak", true);
