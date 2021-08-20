@@ -16,7 +16,7 @@ namespace PlayerExport
     public class PlayerExport : TerrariaPlugin
     {
         public override string Name => "PlayerExport";
-        public override Version Version => new Version(1, 0, 1);
+        public override Version Version => new Version(1, 0, 2);
         public override string Author => "Megghy";
         public override string Description => "导出服务器中的云存档.";
 
